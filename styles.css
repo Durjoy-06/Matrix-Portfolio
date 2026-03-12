@@ -974,4 +974,51 @@ input:focus, textarea:focus {
         flex-wrap: wrap;
         justify-content: center;
     }
+    .hud-section {
+        padding: 5rem 1rem; /* Less padding on mobile */
+    }
+    .hud-panel {
+        padding: 1.5rem; /* Less inner padding on panels */
+    }
+    .section-title {
+        font-size: 1.5rem; /* Smaller section headings */
+    }
+    .hero-name {
+        font-size: clamp(2.2rem, 10vw, 3.5rem); /* Scaled down hero name */
+    }
+    .hero-tagline {
+        font-size: 0.85rem;
+        letter-spacing: 3px;
+    }
+    .hero-bio {
+        font-size: 0.95rem;
+    }
+    .hero-btns {
+        flex-direction: column;
+        gap: 1rem;
+        width: 100%;
+        max-width: 300px;
+        margin-left: auto;
+        margin-right: auto;
+    }
+    .hero-btns .hud-btn {
+        width: 100%; /* Full width buttons on mobile */
+    }
+    .projects-grid {
+        grid-template-columns: 1fr; /* Stack project cards */
+    }
+    .certs-grid {
+        gap: 1rem;
+    }
+    .cert-card {
+        flex-direction: column;
+        text-align: center;
+        gap: 1rem;
+    }
+    .form-grid {
+        grid-template-columns: 1fr; /* Stack form inputs */
+    }
+    .timeline-item {
+        padding-bottom: 3rem;
+    }
 }
