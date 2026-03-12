@@ -54,42 +54,9 @@ window.addEventListener('resize', () => {
     canvas.height = window.innerHeight;
 });
 
-// Typewriter Effect for Hero
-const typewriterElement = document.getElementById('typewriter');
-const roles = ["Aspiring ML Engineer", "Computer Science Student", "Software Developer", "Problem Solver"];
-let roleIndex = 0;
-let charIndex = 0;
-let isDeleting = false;
-let typeSpeed = 100;
 
-function type() {
-    const currentRole = roles[roleIndex];
-    
-    if (isDeleting) {
-        typewriterElement.textContent = currentRole.substring(0, charIndex - 1);
-        charIndex--;
-        typeSpeed = 50;
-    } else {
-        typewriterElement.textContent = currentRole.substring(0, charIndex + 1);
-        charIndex++;
-        typeSpeed = 100;
-    }
 
-    if (!isDeleting && charIndex === currentRole.length) {
-        isDeleting = true;
-        typeSpeed = 2000; // Pause at end
-    } else if (isDeleting && charIndex === 0) {
-        isDeleting = false;
-        roleIndex = (roleIndex + 1) % roles.length;
-        typeSpeed = 500;
-    }
-
-    setTimeout(type, typeSpeed);
-}
-
-document_addEventListener('DOMContentLoaded', () => {
-    type();
-    rapidBoot();
+document.addEventListener('DOMContentLoaded', () => {
     
     // Initialize Name Scrambler
     const heroName = document.querySelector('.hero-name');
@@ -162,43 +129,7 @@ class TextScrambler {
     }
 }
 
-// Immersive Boot Logic
-const bootLogs = document.getElementById('boot-logs');
-const logStatements = [
-    "LOADING CORE MODULES...",
-    "ACCESS DESPOTIC OVERRIDE...",
-    "DECRYPTING IDENTITY_FILE...",
-    "BYPASSING SECURITY FIREWALL...",
-    "INITIALIZING HUD...",
-    "DURJOY_BANIK_OS LOADED",
-    "STATUS: ACCESS_GRANTED"
-];
 
-async function rapidBoot() {
-    const statusBox = document.getElementById('boot-status');
-    if (!statusBox) return;
-    statusBox.style.display = 'block';
-    
-    for (let i = 0; i < 50; i++) {
-        let p = document.createElement('div');
-        p.textContent = `HEX_${Math.random().toString(16).slice(2, 10)} : ${Math.random() > 0.5 ? 'SUCCESS' : 'RUNNING'}`;
-        bootLogs.prepend(p);
-        await new Promise(r => setTimeout(r, 15));
-    }
-    
-    for (let statement of logStatements) {
-        let p = document.createElement('div');
-        p.textContent = `> ${statement}`;
-        p.style.color = '#00FF41';
-        bootLogs.prepend(p);
-        await new Promise(r => setTimeout(r, 150));
-    }
-    
-    setTimeout(() => {
-        statusBox.style.opacity = '0';
-        setTimeout(() => statusBox.style.display = 'none', 1000);
-    }, 3000);
-}
 
 // Terminal Nav Command Feedback
 const activeCommand = document.getElementById('active-command');
