@@ -1,4 +1,4 @@
-// Matrix Digital Rain
+// Enhanced Matrix Digital Rain
 const canvas = document.getElementById('matrix-canvas');
 const ctx = canvas.getContext('2d');
 
@@ -10,25 +10,40 @@ const fontSize = 16;
 const columns = canvas.width / fontSize;
 
 const drops = [];
+const speeds = [];
+
 for (let i = 0; i < columns; i++) {
-    drops[i] = 1;
+    drops[i] = Math.random() * -100; // Randomize start positions
+    speeds[i] = Math.random() * 0.5 + 0.5; // Varied falling speeds
 }
 
 function drawMatrix() {
-    ctx.fillStyle = 'rgba(0, 0, 0, 0.05)';
+    ctx.fillStyle = 'rgba(0, 0, 0, 0.1)'; // Slightly more trail
     ctx.fillRect(0, 0, canvas.width, canvas.height);
-
-    ctx.fillStyle = '#00FF41';
-    ctx.font = fontSize + 'px monospace';
 
     for (let i = 0; i < drops.length; i++) {
         const text = characters.charAt(Math.floor(Math.random() * characters.length));
+        
+        // Depth simulation with opacity and color variation
+        const opacity = Math.random();
+        ctx.fillStyle = `rgba(0, 255, 65, ${opacity > 0.8 ? 1 : 0.35})`;
+        
+        // Glowing lead character
+        if (Math.random() > 0.95) {
+            ctx.fillStyle = '#FFFFFF';
+            ctx.shadowBlur = 10;
+            ctx.shadowColor = '#00FF41';
+        } else {
+            ctx.shadowBlur = 0;
+        }
+
+        ctx.font = fontSize + 'px monospace';
         ctx.fillText(text, i * fontSize, drops[i] * fontSize);
 
         if (drops[i] * fontSize > canvas.height && Math.random() > 0.975) {
             drops[i] = 0;
         }
-        drops[i]++;
+        drops[i] += speeds[i];
     }
 }
 
@@ -203,17 +218,29 @@ function scrollToSection(id) {
     document.getElementById(id).scrollIntoView({ behavior: 'smooth' });
 }
 
-// Skill bars animation on scroll
-const observer = new IntersectionObserver((entries) => {
+// Intersection Observer for Section Headings
+const headingObserver = new IntersectionObserver((entries) => {
     entries.forEach(entry => {
         if (entry.isIntersecting) {
-            entry.target.querySelectorAll('.progress').forEach(bar => {
-                const width = bar.style.width;
-                bar.style.width = '0';
-                setTimeout(() => { bar.style.width = width; }, 100);
-            });
+            const heading = entry.target.querySelector('.section-title');
+            if (heading && !heading.classList.contains('animated')) {
+                heading.classList.add('animated');
+                const scrambler = new TextScrambler(heading);
+                scrambler.setText(heading.getAttribute('data-text') || heading.innerText);
+            }
         }
     });
-}, { threshold: 0.5 });
+}, { threshold: 0.2 });
 
-document.querySelectorAll('#skills').forEach(section => observer.observe(section));
+document.querySelectorAll('.hud-panel').forEach(panel => headingObserver.observe(panel));
+
+// Skill tiles hover sound simulation
+document.querySelectorAll('.skill-tile').forEach(tile => {
+    tile.addEventListener('mouseenter', () => {
+        // Visual feedback for "accessing" data
+        activeCommand.textContent = `LOAD_${tile.getAttribute('data-skill').toUpperCase().replace(' ', '_')}`;
+    });
+    tile.addEventListener('mouseleave', () => {
+        activeCommand.textContent = 'ACCESS_GRANTED';
+    });
+});
